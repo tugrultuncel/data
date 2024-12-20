@@ -1,0 +1,20 @@
+import pandas as pd
+
+# Load dataset and display
+# Option 1: Using double backslashes
+fake_dataset = pd.read_csv("C:\\data_science\\data_exploration_godlove_kuaban\\Datasets files\\a_loading_example_1.csv", sep=',')
+
+# Option 2: Using a raw string
+# fake_dataset = pd.read_csv(r"C:\data_science\data_exploration_godlove_kuaban\Datasets files\a_preprocessing_example_1.csv", sep=',')
+
+print(fake_dataset)
+
+fake_dataset = pd.read_csv("C:\\data_science\\data_exploration_godlove_kuaban\\Datasets files\\a_loading_example_1.csv",
+ parse_dates=[0])
+print(fake_dataset)
+print (fake_dataset.fillna(50))
+print(fake_dataset.fillna(-1))
+print(fake_dataset.fillna(fake_dataset.mean(axis=0)))
+print (fake_dataset.fillna(fake_dataset.median(axis=0)))
+bad_dataset = pd.read_csv("C:\\data_science\\data_exploration_godlove_kuaban\\Datasets files\\a_loading_example_1.csv", on_bad_lines='skip')
+print(bad_dataset)
