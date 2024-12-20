@@ -1,0 +1,20 @@
+import urllib.request
+from bs4 import BeautifulSoup
+
+url = 'https://en.wikipedia.org/wiki/William_Shakespeare'
+request = urllib.request.Request(url)
+response = urllib.request.urlopen(request)
+
+soup = BeautifulSoup(response, 'html.parser')
+print(soup)
+
+#will print <!DOCTYPE html> etc etc.#
+
+print(soup.title)
+
+#<title>William Shakespeare - Wikipedia</title>#
+
+section = soup.find_all(id='mw-normal-catlinks')[0]
+for catlink in section.find_all("a")[1:]:
+    print(catlink.get("title"), "->", catlink.get("href"))
+
