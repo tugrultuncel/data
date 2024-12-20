@@ -1,0 +1,26 @@
+import sqlite3
+import pandas as pd
+drop_query = "DROP TABLE IF EXISTS temp_data;"
+create_query = "CREATE TABLE temp_data \
+ (date INTEGER, city VARCHAR(80), \
+ temperature REAL, destination INTEGER);"
+connection = sqlite3.connect("example.db")
+connection.execute(drop_query)
+connection.execute(create_query)
+connection.commit()
+
+data = [(20140910, "Rome", 80.0, 0),
+ (20140910, "Berlin", 50.0, 0),
+ (20140910, "Wien", 32.0, 1),
+ (20140911, "Paris", 65.0, 0)]
+insert_query = "INSERT INTO temp_data VALUES(?, ?, ?, ?)"
+
+connection.executemany(insert_query, data)
+connection.commit()
+
+selection_query = "SELECT date, city, temperature, destination\
+                From temp_data WHERE Date = 20140910"
+
+retrieved = pd.read_sql_query(selection_query, connection)
+print(retrieved)
+connection.close()
