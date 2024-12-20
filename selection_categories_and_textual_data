@@ -1,0 +1,87 @@
+import pandas as pd
+import urllib.request
+import numpy as np
+import pandas as pd  # Importing the Pandas library
+
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+filename="iris.csv"
+urllib.request.urlretrieve(url, filename)
+print (f"Iris dataset downloaded and saved as {filename}.")
+iris = pd.read_csv(filename, sep=',', decimal='.', header=None, names= ['sepal_length','sepal_width',
+ 'petal_length','petal_width',
+ 'target'])
+#select all the lines which has sepal
+#length greater than 6.
+mask_feature = iris['sepal_length'] > 6.0
+
+print(mask_feature)
+
+mask_target = iris['target'] == 'Iris-virginica'
+iris.loc[mask_target, 'target'] = 'New label'
+
+print(iris['target'].unique())
+
+grouped_targets_mean = iris.groupby(['target']).mean()
+
+print(grouped_targets_mean)
+
+grouped_targets_var = iris.groupby(['target']).var()
+
+print(grouped_targets_var)
+
+funcs = {'sepal_length':['mean','std'],
+ 'sepal_width' :['max', 'min'],
+ 'petal_length':['mean','std'],
+ 'petal_width' :['max', 'min']}
+grouped_targets_f = iris.groupby(['target']).agg(funcs)
+
+print(grouped_targets_f)
+print(iris.sort_values(by='sepal_length').head())
+print(iris.apply(np.count_nonzero, axis=1).head())
+print(iris.apply(np.count_nonzero, axis=0))
+print(iris.sum(axis=0))
+print(iris.applymap(lambda x:len(str(x))).head())
+
+def square(x):
+ return x**2
+original_variables = ['sepal_length', 'sepal_width',
+ 'petal_length', 'petal_width']
+squared_iris = iris[original_variables].apply(square)
+
+print(squared_iris)
+
+# Reading the CSV file into a DataFrame
+dataset = pd.read_csv("C://data_science/data_exploration_godlove_kuaban/Datasets files/a_selection_example_1.csv")
+print(dataset)  # Printing the DataFrame
+
+dataset = pd.read_csv("C://data_science/data_exploration_godlove_kuaban/Datasets files/a_selection_example_1.csv", index_col=0)
+
+print(dataset)
+
+print(dataset['val3'][104])
+print(dataset.loc[104, 'val3'])
+print(dataset.iloc[4, 2])
+print(dataset[['val3', 'val2']][0:2])
+print(dataset.loc[range(100, 102), ['val3', 'val2']])
+print(dataset.iloc[range(2), [2,1]])
+categorical_feature = pd.Series(['sunny', 'cloudy', 'snowy',
+ 'rainy', 'foggy'])
+mapping = pd.get_dummies(categorical_feature)
+
+print(mapping)
+print(mapping['sunny'])
+print(mapping['cloudy'])
+
+#
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
+#
+
+le = LabelEncoder()
+ohe = OneHotEncoder()
+levels = ['sunny', 'cloudy', 'snowy', 'rainy', 'foggy']
+fit_levs = le.fit_transform(levels)
+ohe.fit([[fit_levs[0]], [fit_levs[1]], [fit_levs[2]], [fit_levs[3]],
+[fit_levs[4]]])
+print (ohe.transform([le.transform(['sunny'])]).toarray())
+print (ohe.transform([le.transform(['cloudy'])]).toarray())
