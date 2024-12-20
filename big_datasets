@@ -1,0 +1,95 @@
+import pandas as pd 
+
+# Define the column names for the Iris dataset
+column_names = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'species']
+
+# Load the dataset in chunks of 10 rows each
+iris_chunks = pd.read_csv('C:/data_science/data_exploration_godlove_kuaban/Datasets files/datasets-uci-iris.csv', 
+                           header=None, names=column_names, chunksize=10)
+
+# Iterate over each chunk and display information
+for i, chunk in enumerate(iris_chunks, start=1):  # Corrected the for loop with spaces
+
+print(f"Chunk {i}: Shape = {chunk.shape}")  # Added spaces for readability
+print(chunk, '\n')  # Added spaces for readability
+
+iris_chunks=pd.read_csv('C:/data_science/data_exploration_godlove_kuaban/Datasets files/datasets-uci-iris.csv',header=None,
+names=['C1','C2','C3','C4','C5'],chunksize=10)
+for chunk in iris_chunks:
+ print('Shape:',chunk.shape)
+ print(chunk,'\n')
+
+#iris_iterator=pd.read_csv('C:/data_science/data_exploration_godlove_kuaban/Datasets files/datasets-uci-iris.csv',header=None,
+# names=['C1','C2','C3','C4','C5'],
+# iterator=True)
+#print (iris_iterator.get_chunk(10).shape)
+#print (iris_iterator.get_chunk(20).shape)
+#piece = iris_iterator.get_chunk(2)
+#print(piece)
+
+
+iris_iterator = pd.read_csv('C:/data_science/data_exploration_godlove_kuaban/Datasets files/datasets-uci-iris.csv', header=None,
+                             names=['C1', 'C2', 'C3', 'C4', 'C5'], iterator=True)
+
+print(iris_iterator.get_chunk(10).shape)  # Print the shape of the first chunk of 10 rows
+print(iris_iterator.get_chunk(20).shape)  # Print the shape of the next chunk of 20 rows
+
+piece = iris_iterator.get_chunk(2)  # Assign the next chunk of 2 rows to 'piece'
+print(piece)  # Print the 'piece' variable
+
+#importcsv
+#with open('C:/data_science/data_exploration_godlove_kuaban/Datasets files/datasets-uci-iris.csv','rt')as data_stream:
+#'rt'mode
+#for n,row in enumerate(csv.DictReader(data_stream,
+#fieldnames = ['sepal_length','sepal_width',
+#'petal_length','petal_width','target'],
+#dialect = 'excel')):
+#if n==0:
+#   print (n,row)
+#else:
+#  break
+
+import csv  # Fixed the import statement by adding a space
+
+with open('C:/data_science/data_exploration_godlove_kuaban/Datasets files/datasets-uci-iris.csv', 'rt') as data_stream:
+    # Indented the following lines to be part of the 'with' block
+    for n, row in enumerate(csv.DictReader(data_stream,
+                                           fieldnames=['sepal_length', 'sepal_width',
+                                                       'petal_length', 'petal_width', 'target'],
+                                           dialect='excel')):
+        if n == 0:
+            print(n, row)
+        else:
+            break
+
+import csv
+
+# Open the CSV file for reading
+with open('C:/data_science/data_exploration_godlove_kuaban/Datasets files/datasets-uci-iris.csv', 'rt') as data_stream:
+    # Enumerate through the rows in the CSV file
+    for n, row in enumerate(csv.reader(data_stream, dialect='excel')):
+        if n == 0:
+            print(row)  # Print the header row
+        else:
+            break  # Exit after printing the first row
+
+import numpy as np
+import csv
+def batch_read(filename, batch=5):
+    #open datastream
+    with open('C:/data_science/data_exploration_godlove_kuaban/Datasets files/datasets-uci-iris.csv', 'rt') as data_stream:
+        #reset the batch
+        batch_output = list()
+        #iterate
+        for n, row in enumerate(csv.reader(data_stream, dialect ='excel')):
+            if n>0 and n % batch == 0:
+                yield(np.array(batch_output))
+                #reset and restart
+                batch_output = list()
+                batch_output.append(row)
+                #when the loop is over, yield what's left 
+                yield(np.array(batch_output))
+
+        for batch_input in batch_read('datasets-uci-iris.csv', batch=3):
+ print (batch_input)
+ break
