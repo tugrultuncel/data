@@ -1,0 +1,38 @@
+import pandas as pd
+my_own_dataset = pd.DataFrame({'Col1': range(5),
+ 'Col2': ([1.0]*5),
+ 'Col3': 1.0,
+ 'Col4': 'Hello World!'})
+print(my_own_dataset)
+
+#my_wrong_own_dataset = pd.DataFrame({'Col1': range(5),
+#'Col2': 'string',
+#'Col3': range(2)})
+
+my_own_dataset = pd.DataFrame({'Col1': range(5),
+                               'Col2': [1.0]*5,
+                               'Col3': 1.0,
+                               'Col4': 'Hello World!'})
+print (my_own_dataset)
+
+col5 = pd.Series([4, 3, 2, 1, 0])
+col6 = pd.Series([0, 0, 1, 1, 1])
+a_new_dataset = pd.concat([col5, col6,], axis=1,
+                          ignore_index = False,
+                          keys=['Col5', 'Col6'])
+my_new_dataset = pd.concat([my_own_dataset, a_new_dataset], axis=1)
+print (my_new_dataset)
+
+key = pd.Series([1, 2, 4])
+value = pd.Series(['alpha', 'beta', 'gamma'])
+reference_table = pd.concat([key, value], axis=1,
+ignore_index = False,
+keys=['Col5', 'Col7'])
+print(reference_table)
+
+print(my_own_dataset.dtypes)
+
+my_own_dataset['Col1']=my_own_dataset['Col1'].astype(float)
+print(my_own_dataset.dtypes)
+
+print(my_own_dataset.info)
