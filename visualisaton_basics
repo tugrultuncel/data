@@ -1,0 +1,94 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
+
+plt.figure(figsize=(9,3))
+x=np.linspace(0,10,50)
+sinus=np.sin(x)
+plt.plot(x,sinus)
+plt.show()
+
+plt.figure(figsize=(9,3))
+plt.plot(x,sinus,"o")
+plt.show()
+
+
+plt.figure(figsize=(9, 3))
+cosinus = np.cos(x)
+plt.plot(x, sinus, "-b", x, sinus, "ob", x, cosinus, "-r", x, cosinus, "or")
+plt.xlabel('Axis X!')
+plt.ylabel('Axis Y!')
+plt.title('Plots X and Y')
+plt.show()
+
+plt.figure(figsize=(9, 3))
+plt.plot(x, sinus, label='sinus', color='blue', linestyle='--', linewidth=2)
+plt.plot(x, cosinus, label='cosinus', color='red', linestyle='-', linewidth=2)
+plt.xlabel('+∞')
+plt.ylabel('-1, +1')
+plt.title('sin and cos functions has phase difference')
+plt.legend()
+plt.show()
+
+salary = pd.read_csv("C:/data_science/data_exploration_godlove_kuaban/Datasets files/salary_table.csv")
+url = 'https://github.com/duchesnay/pystatsml/raw/master/datasets/salary_table.csv'
+salary=pd.read_csv(url)
+df=salary
+print(df.head())
+
+plt.figure(figsize=(3, 3), dpi=100)
+  sns.scatterplot(x="experience", y="salary", hue="education", data=salary)
+  plt.show()
+
+ax= sns.lmplot(x="experience", y="salary", hue="education", data=salary)
+  plt.show()
+
+plt.plot(x, sinus)
+plt.savefig("sinus.png")
+plt.show()
+plt.close()
+
+plt.plot(x, sinus)
+plt.savefig("sinus.svg")
+plt.show()
+plt.close()
+
+plt.plot(x, sinus)
+plt.savefig("sinus.pdf")
+plt.show()
+plt.close()
+
+ax=sns.boxplot(x="management",y="salary",data=salary)
+plt.show()
+ax=sns.stripplot(x="management",y="salary",data=salary,jitter=True,
+color="black")
+plt.show()
+
+ax=sns.violinplot(x="management",y="salary",data=salary)
+plt.show()
+ax=sns.stripplot(x="management",y="salary",data=salary,jitter=True,
+color="red")
+plt.show()
+
+ax=sns.displot(x="salary",hue="management",kind="kde",
+data=salary,fill=True)
+plt.show()
+
+fig,axes=plt.subplots(3,1,figsize=(9,9),sharex=True)
+i=0
+for edu, d in salary.groupby(['education']):
+    sns.kdeplot(x="salary",hue="management",data=d,fill=True,
+    ax=axes[i],palette="muted")
+    axes[i].set_title(edu)
+    i+=1
+plt.show()
+
+ax=sns.pairplot(salary,hue="management")
+plt.show()
+
+sns.set(style="darkgrid")
+fmri=sns.load_dataset("fmri")
+ax = sns.pointplot(x="timepoint", y="signal", hue="region", data=fmri)
+plt.show()
