@@ -85,3 +85,118 @@ ohe.fit([[fit_levs[0]], [fit_levs[1]], [fit_levs[2]], [fit_levs[3]],
 [fit_levs[4]]])
 print (ohe.transform([le.transform(['sunny'])]).toarray())
 print (ohe.transform([le.transform(['cloudy'])]).toarray())
+
+# ## CATEGORIES AND TEXTUAL DATA ## #
+
+categorical_feature = pd.Series(['sunny', 'cloudy', 'snowy', 'rainy', 'foggy'])
+mapping = pd.get_dummies(categorical_feature)
+print(mapping)
+print (mapping['sunny'])
+print (mapping['cloudy'])
+
+#
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
+#
+
+le = LabelEncoder()
+ohe = OneHotEncoder()
+levels = ['sunny', 'cloudy', 'snowy', 'rainy', 'foggy']
+fit_levs = le.fit_transform(levels)
+ohe.fit([[fit_levs[0]], [fit_levs[1]], [fit_levs[2]], [fit_levs[3]], [fit_levs[4]]])
+
+print (ohe.transform([le.transform(['sunny'])]).toarray())
+
+print (ohe.transform([le.transform(['cloudy'])]).toarray())
+
+from sklearn.datasets import fetch_20newsgroups
+
+categories = ['sci.med', 'sci.space']
+
+twenty_sci_news = fetch_20newsgroups(categories=categories)
+
+print(twenty_sci_news.data[0])
+print(twenty_sci_news.filenames)
+print (twenty_sci_news.target[0])
+print (twenty_sci_news.target_names[twenty_sci_news.target[0]])
+from sklearn.feature_extraction.text import CountVectorizer
+count_vect = CountVectorizer()
+word_count = count_vect.fit_transform(twenty_sci_news.data)
+print(word_count.shape)
+print (word_count[0])
+
+word_list = count_vect.get_feature_names_out()
+for n in word_count[0].indices:
+    print ('Word "%s" appears %i times' % (word_list[n], word_count[0, n]))
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+tf_vect = TfidfVectorizer(use_idf=False, norm='l1')
+word_freq = tf_vect.fit_transform(twenty_sci_news.data)
+word_list = tf_vect.get_feature_names_out()
+
+# Indented the print statement to be part of the for loop
+for n in word_freq[0].indices:
+    print('Word "%s" has frequency %0.3f' % (word_list[n], word_freq[0, n]))
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+tfidf_vect = TfidfVectorizer() # Default: use_idf=True
+word_tfidf = tfidf_vect.fit_transform(twenty_sci_news.data)
+word_list = tfidf_vect.get_feature_names_out()
+for n in word_tfidf[0].indices:
+ print('Word "%s" has tf-idf %0.3f' % (word_list[n], word_tfidf[0, n]))
+
+text_1='welovedatascience'
+text_2='datascienceishard'
+documents=[text_1, text_2]
+print(documents)
+
+#
+from sklearn.feature_extraction.text import CountVectorizer
+#
+
+#Define the documents
+text_1='we love data science'
+text_2='data science is hard'
+documents=[text_1, text_2]
+
+#That is what we say above,the defaul tone
+
+count_vect_1_grams=CountVectorizer(ngram_range=(1,1),
+stop_words=[],min_df=1)
+word_count=count_vect_1_grams.fit_transform(documents)
+word_list=count_vect_1_grams.get_feature_names_out()
+print("Wordlist=",word_list)
+print("text_1isdescribedwith",[word_list[n]+"("+
+str(word_count[0,n])+")"for n in word_count[0].indices])
+
+#Nowabi-gramcountvectorizer
+
+count_vect_1_grams=CountVectorizer(ngram_range=(2,2))
+word_count=count_vect_1_grams.fit_transform(documents)
+word_list=count_vect_1_grams.get_feature_names_out()
+
+print("Wordlist=",word_list)
+print("text_1isdescribedwith",[word_list[n]+"("+
+
+str(word_count[0,n])+")"for n in word_count[0].indices])
+
+# Now a uni- and bi-gram count vectorizer
+
+count_vect_1_grams = CountVectorizer(ngram_range=(1, 2))
+word_count = count_vect_1_grams.fit_transform(documents)
+word_list = count_vect_1_grams.get_feature_names_out()
+
+print ("Word list = ", word_list)
+print ("text_1 is described with", [word_list[n] + "(" +
+
+str(word_count[0, n]) + ")" for n in word_count[0].indices])
+
+from sklearn.datasets import fetch_20newsgroups
+categories = ['sci.med', 'sci.space']
+twenty_sci_news = fetch_20newsgroups(categories=categories)
+from sklearn.feature_extraction.text import HashingVectorizer
+hash_vect = HashingVectorizer(n_features=1000)
+word_hashed = hash_vect.fit_transform(twenty_sci_news.data)
+
+print(word_hashed.shape)
