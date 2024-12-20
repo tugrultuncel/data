@@ -1,0 +1,251 @@
+# creation ndarrays from lists.
+import numpy as np
+data1 = [1,2,3,4,5]
+arr1 = np.array(data1)
+
+print (arr1)
+
+data2 = [range(1,5), range(5,9)]
+arr2 = np.array(data2)
+
+print(arr2)
+
+arr2.tolist ()
+# creation special arrays.
+np.zeros (10)
+np.zeros ((3,6))
+np.ones(10)
+#linspace interpolates from frist digit to secon one for 3third number times.
+np.linspace(0,1,5)
+np.linspace(0,1,345)
+#logspace adds logaritmic povers from first number 
+#to second numbertimes and interpolates 3third number times
+np.logspace(0,3,4) 
+np.logspace(1,5,10)
+#arange works similar range ut iy returns an array instead of a list
+int_array = np.arange(5)
+
+print(int_array)
+
+float_array = int_array.astype(float)
+
+print(float_array)
+
+#examining arrays
+arr1.dtype #float64
+
+arr2.ndim #2
+arr2.shape # (2,4) - axis 0 is rows, axis 1 is columns
+arr2.size #total element count
+len(arr2) #size of first axis
+#OPERATIONS OF RESHAPING THE ARRAYS
+
+arr = np.arange(10, dtype=float).reshape((2, 5))
+print(arr.shape)
+
+print(arr.reshape(5,2))
+
+#adding an axis
+a = np.array([0,1])
+a_col = a[:, np.newaxis]
+
+print (a_col)
+
+a_col = a[:, None]
+
+print (a_col)
+
+#Transpose
+
+print(a_col.T)
+
+#flatten
+
+arr_flt = arr.flatten()
+arr_flt[0] = 33
+print(arr_flt)
+print(arr)
+
+#ravel
+
+arr_flt = arr.ravel()
+arr_flt[0] = 33
+
+print(arr_flt)
+print(arr)
+
+x = np.arange (2*3*4)
+print(x)
+
+x = x.reshape (2,3,4)
+
+print (x)
+print(x[0, :, :])
+print(x[:, 0, :])
+print(x[:, :, 0])
+arr = np.arange(10, dtype=float).reshape((2, 5))
+
+print(arr)
+
+arr[1, :]
+arr[:, 2]
+
+print(x.ravel())
+
+a = np.array([0, 1])
+b = np.array([2, 3])
+
+print(a)
+print(b)
+
+np.hstack([a, b])
+np.vstack([a, b])
+np.stack([a, b])
+arr = np.arange(10, dtype=float).reshape((2, 5))
+arr[0] 
+arr[0, 3] 
+arr[0][3]
+arr[0, :] 
+arr[:, 0]
+arr[:, :2] 
+arr[:, 2:]
+arr2 = arr[:, 1:4] 
+
+print(arr2)
+
+arr2[0, 0] = 33
+print(arr2)
+
+print(arr)
+print(arr[0, ::-1])
+
+arr2 = arr[:, [1, 2, 3]] # return a copy
+
+print(arr2)
+
+arr2[0, 0] = 44
+
+print(arr2)
+print(arr)
+
+arr2 = arr[arr > 5]
+print(arr2)
+arr2[0] = 44
+print(arr2)
+print(arr)
+arr[arr > 5] = 0
+print(arr)
+
+#Boolean arrays
+
+names = np.array(['Bob', 'Joe', 'Will', 'Bob'])
+
+#Returns a boolean array
+
+names == 'Bob'
+
+#Logical Selection
+names[names != 'Bob']
+#Keywords "and/or" don't work with boolean arrays
+(names == 'Bob') | (names == 'Will')
+#Assign based on a logical selection
+names[names != 'Bob'] = 'Joe'
+#Set function
+np.unique(names)
+#VECTORIZED OPERATIONS
+nums = np.arange(5)
+print (nums)
+
+nums * 10
+nums = np.sqrt(nums)
+print (nums)
+np.ceil(nums)
+np.isnan(nums)
+nums = np.sqrt(nums)
+print(nums)
+np.isnan(nums)
+nums + np.arange(5) 
+np.maximum(nums, np.array([1, -2, 3, -4, 5]))
+#DISTANCE BETWEEN 2 Vectors, euclidian
+vec1 = np.random.randn(10)
+vec2 = np.random.randn(10)
+print (vec1)
+print (vec2)
+dist = np.sqrt(np.sum((vec1-vec2)**2))
+print(dist)
+
+##MATH AND STATISTICS
+
+rnd = np.random.randn(4, 2)
+print(rnd)
+#random normals in 4x2 array
+rnd.mean()
+rnd.std()
+rnd.argmin()
+rnd.sum()
+rnd.sum(axis=0)
+rnd.sum(axis=1)
+
+#boolean arrays
+
+(rnd > 0).sum()
+(rnd > 0).any()
+(rnd > 0).all() 
+np.random.seed(12234) 
+np.random.rand(2, 3) 
+np.random.randn(10) 
+np.random.randint(0, 2, 10) 
+
+#BROADCASTING
+
+a = np.array([1.0, 2.0, 3.0])
+print (a)
+b = np.array([2.0, 2.0, 2.0])
+print(b)
+c = a*b
+print (c)
+a*b
+
+a = np.array([1.0, 2.0, 3.0])
+print (b)
+b = 2.0
+print (b)
+a*b
+x = np.arange(4)
+print(x)
+xx = x.reshape(4,1)
+print(xx)
+
+y = np.ones(5)
+z = np.ones((3,4))
+
+print(y)
+print(z)
+x.shape
+y.shape
+
+x + y
+
+#---------------------------------------------------------------------------
+#ValueError                                Traceback (most recent call last)
+#Cell In[177], line 1
+#----> 1 x + y
+#
+#ValueError: operands could not be broadcast together with shapes (4,) (5,)
+
+xx.shape
+y.shape
+(xx + y).shape
+xx + y
+
+x.shape
+z.shape
+(x + z).shape
+
+x + z
+
+a = np.array([0.0, 10.0, 20.0, 30.0])
+
+b = np.array([1.0, 2.0, 3.0])
+
+a[:, np.newaxis] + b
